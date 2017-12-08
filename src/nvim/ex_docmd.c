@@ -195,7 +195,7 @@ static void restore_dbg_stuff(struct dbg_stuff *dsp)
  * do_exmode(): Repeatedly get commands for the "Ex" mode, until the ":vi"
  * command is given.
  */
-void 
+void
 do_exmode (
     int improved                       /* TRUE for "improved Ex" mode */
 )
@@ -1667,15 +1667,11 @@ static char_u * do_one_cmd(char_u **cmdlinep,
     ea.addr_count++;
 
     if (*ea.cmd == ';') {
-      if (!ea.skip) {
+      if (!ea.skip)
         curwin->w_cursor.lnum = ea.line2;
-        // don't leave the cursor on an illegal line or column
-        check_cursor();
-      }
-    } else if (*ea.cmd != ',') {
+    } else if (*ea.cmd != ',')
       break;
-    }
-    ea.cmd++;
+    ++ea.cmd;
   }
 
   /* One address given: set start and end lines */
@@ -1685,6 +1681,9 @@ static char_u * do_one_cmd(char_u **cmdlinep,
     if (lnum == MAXLNUM)
       ea.addr_count = 0;
   }
+
+  /* Don't leave the cursor on an illegal line (caused by ';') */
+  check_cursor_lnum();
 
   /*
    * 5. Parse the command.
@@ -2329,7 +2328,7 @@ doend:
  * Check for an Ex command with optional tail.
  * If there is a match advance "pp" to the argument and return TRUE.
  */
-int 
+int
 checkforcmd (
     char_u **pp,               /* start of command */
     char *cmd,               /* name of command */
@@ -4710,7 +4709,7 @@ char_u *check_nextcmd(char_u *p)
  *    return FAIL and give error message if 'message' TRUE
  * return OK otherwise
  */
-static int 
+static int
 check_more (
     int message,                /* when FALSE check only, no messages */
     int forceit
@@ -5373,7 +5372,7 @@ static size_t add_cmd_modifier(char_u *buf, char *mod_str, bool *multi_mods)
  * Returns the length of the replacement, which has been added to "buf".
  * Returns -1 if there was no match, and only the "<" has been copied.
  */
-static size_t 
+static size_t
 uc_check_code (
     char_u *code,
     size_t len,
@@ -6088,7 +6087,7 @@ static void ex_pclose(exarg_T *eap)
  * Close window "win" and take care of handling closing the last window for a
  * modified buffer.
  */
-static void 
+static void
 ex_win_close (
     int forceit,
     win_T *win,
@@ -6502,7 +6501,7 @@ void alist_set(alist_T *al, int count, char_u **files, int use_curbuf, int *fnum
  * Add file "fname" to argument list "al".
  * "fname" must have been allocated and "al" must have been checked for room.
  */
-void 
+void
 alist_add (
     alist_T *al,
     char_u *fname,
@@ -6854,7 +6853,7 @@ static void ex_edit(exarg_T *eap)
 /*
  * ":edit <file>" command and alikes.
  */
-void 
+void
 do_exedit (
     exarg_T *eap,
     win_T *old_curwin            /* curwin before doing a split or NULL */
@@ -8742,7 +8741,7 @@ char_u *expand_sfile(char_u *arg)
  * Write openfile commands for the current buffers to an .exrc file.
  * Return FAIL on error, OK otherwise.
  */
-static int 
+static int
 makeopens (
     FILE *fd,
     char_u *dirnow            /* Current directory name */
@@ -9189,7 +9188,7 @@ static int ses_do_win(win_T *wp)
  * Write commands to "fd" to restore the view of a window.
  * Caller must make sure 'scrolloff' is zero.
  */
-static int 
+static int
 put_view (
     FILE *fd,
     win_T *wp,
@@ -9384,7 +9383,7 @@ put_view (
  * Write an argument list to the session file.
  * Returns FAIL if writing fails.
  */
-static int 
+static int
 ses_arglist (
     FILE *fd,
     char *cmd,
